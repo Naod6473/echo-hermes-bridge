@@ -1,5 +1,11 @@
-blank_issues_enabled: true
+blank_issues_enabled: false
 contact_links:
+  - name: Questions and setup help
+    url: https://github.com/Naod6473/echo-hermes-bridge/discussions/categories/q-a
+    about: Ask in Discussions, the community can help there.
+  - name: Show your setup
+    url: https://github.com/Naod6473/echo-hermes-bridge/discussions/categories/show-and-tell
+    about: Share your Echo, your use cases and your wake words.
   - name: Flashing problems (echo-dot-assist)
     url: https://github.com/Gamer92000/echo-dot-assist/issues
     about: Problems rooting or flashing the Echo itself belong to echo-dot-assist.

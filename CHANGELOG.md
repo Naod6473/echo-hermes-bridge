@@ -1,5 +1,12 @@
 # Changelog
 
+## Unreleased
+
+- One-line installer for Debian / Ubuntu (`install.sh`).
+- Proxmox VE script that creates a ready-made LXC (`deploy/proxmox-lxc.sh`).
+- Docker image (`ghcr.io/naod6473/echo-hermes-bridge`) and `docker-compose.yml`.
+- Dependabot, code of conduct, Discussions links in the issue chooser.
+
 ## 0.1.0 (2026-11-06)
 
 First public release.

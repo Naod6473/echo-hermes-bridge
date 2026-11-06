@@ -20,4 +20,5 @@ jobs:
       # Whisper and Piper are stubbed by the test, so only the light dependencies are needed.
       - run: pip install "aioesphomeapi==46.28.0" "aiohttp>=3.9" numpy ruff
       - run: ruff check --select E9,F bridge.py cleanup.py tests/
+      - run: bash -n install.sh && bash -n deploy/proxmox-lxc.sh && sh -n docker/entrypoint.sh
       - run: python tests/fake_echo_test.py

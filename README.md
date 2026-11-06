@@ -84,17 +84,29 @@ Version 1 recycles an Echo. The goal for **version 2** is a small, cheap, portab
 
 ## 🚀 Quick start
 
-Already have an Echo flashed with echo-dot-assist and a Hermes API server? Five commands:
+Already have an Echo flashed with echo-dot-assist and a Hermes API server? Pick your flavour. Each one asks for your Echo's IP, your Hermes URL and its key.
+
+**🐧 One line, on any Debian / Ubuntu box** (LXC, VM, Raspberry Pi):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Naod6473/echo-hermes-bridge/main/install.sh | sudo bash
+```
+
+**🧱 Proxmox VE: a ready-made LXC.** Run this in the Proxmox host shell. It shows a summary and creates nothing until you confirm:
+
+```bash
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/Naod6473/echo-hermes-bridge/main/deploy/proxmox-lxc.sh)"
+```
+
+**🐳 Docker:**
 
 ```bash
 git clone https://github.com/Naod6473/echo-hermes-bridge && cd echo-hermes-bridge
-python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
-mkdir -p voices && (cd voices && ../.venv/bin/python -m piper.download_voices en_US-lessac-medium)
 cp .env.example .env && nano .env      # ECHO_HOST, HERMES_URL, HERMES_API_KEY
-.venv/bin/python bridge.py
+docker compose up -d
 ```
 
-Say the wake word and ask something. Starting from scratch? Follow the [full setup](#-full-setup).
+Then say the wake word and ask something. Starting from scratch? Follow the [full setup](#-full-setup).
 
 ## 🔧 How it works
 
@@ -152,6 +164,8 @@ If the bridge runs on another machine, the API server must listen on the network
 > A dedicated voice profile with short answers and low reasoning effort replies noticeably faster. The [hermes-voice guide](https://github.com/majorminorlabs/hermes-voice/blob/main/docs/voice-profile.md) shows how to make one.
 
 ### 3. Install the bridge
+
+The [one-line installer](#-quick-start) does everything below for you. To do it by hand:
 
 On Proxmox, an unprivileged Debian 13 LXC with 2 to 4 cores, 2 GB RAM and 8 GB disk works well (for example the [community-scripts Debian LXC](https://community-scripts.github.io/ProxmoxVE/scripts?id=debian)), bridged on your LAN.
 
@@ -264,7 +278,7 @@ The bridge speaks the OpenAI chat completions API, so any compatible server shou
 - [x] English and French
 - [ ] Stream the reply so the Echo starts talking sooner
 - [ ] Light ring effects while Hermes is thinking
-- [ ] One-line installer
+- [x] One-line installer, Proxmox LXC script and Docker image
 - [ ] Reports from Echo Dot 3 and Echo 2 owners
 - [ ] **v2: portable ESP32 satellite** (ESP32-S3 + mic + speaker)
 

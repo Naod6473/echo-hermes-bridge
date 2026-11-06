@@ -1,0 +1,12 @@
+# docker compose up -d   (after: cp .env.example .env and editing it)
+services:
+  echo-hermes-bridge:
+    image: ghcr.io/naod6473/echo-hermes-bridge:latest
+    build: .
+    container_name: echo-hermes-bridge
+    restart: unless-stopped
+    # Host networking: the Echo must reach the bridge's own LAN IP on HTTP_PORT (8765).
+    network_mode: host
+    env_file: .env
+    volumes:
+      - ./data:/data

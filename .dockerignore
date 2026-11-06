@@ -1,0 +1,10 @@
+.git
+.venv
+venv
+voices
+data
+.env
+__pycache__
+assets
+docs
+tests
