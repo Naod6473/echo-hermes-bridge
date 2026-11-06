@@ -1,0 +1,8 @@
+.env
+.venv/
+venv/
+voices/
+__pycache__/
+*.pyc
+*.wav
+*.tflite

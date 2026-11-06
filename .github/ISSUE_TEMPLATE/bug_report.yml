@@ -1,0 +1,38 @@
+name: Bug report
+description: Something does not work
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting! Please **remove your API keys and IP addresses** from logs before pasting them.
+  - type: input
+    id: echo
+    attributes:
+      label: Echo model
+      placeholder: Echo Dot 2 (RS03QR)
+    validations:
+      required: true
+  - type: input
+    id: firmware
+    attributes:
+      label: echo-dot-assist version
+      placeholder: v2026.11.05.000019-beta
+  - type: input
+    id: host
+    attributes:
+      label: Where the bridge runs
+      placeholder: Debian 13 LXC, 4 cores, Python 3.13
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you said, what you expected, what you got.
+    validations:
+      required: true
+  - type: textarea
+    id: log
+    attributes:
+      label: Log
+      description: Output of `python bridge.py -v` (or `journalctl -u hermes-echo -n 100`).
+      render: text
