@@ -28,6 +28,11 @@
 
 ## 💬 À quoi ça ressemble
 
+<p align="center">
+  <img src="assets/echo-dot-2.jpg" alt="Un vrai Echo Dot 2, flashé avec echo-dot-assist, à l'écoute pour Hermes." width="720"><br>
+  <sub>Un vrai Echo Dot 2, flashé avec echo-dot-assist, à l'écoute pour Hermes.</sub>
+</p>
+
 ```text
 Toi     Computer, comment va le serveur Proxmox ?
         └─ compris en 1,6 s (Whisper small, 4 cœurs)

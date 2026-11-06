@@ -28,6 +28,11 @@
 
 ## 💬 What it sounds like
 
+<p align="center">
+  <img src="assets/echo-dot-2.jpg" alt="A real Echo Dot 2, flashed with echo-dot-assist and listening for Hermes." width="720"><br>
+  <sub>A real Echo Dot 2, flashed with echo-dot-assist and listening for Hermes.</sub>
+</p>
+
 ```text
 You     Computer, how is the Proxmox server doing?
         └─ heard in 1.6 s (Whisper small, 4 CPU cores)
