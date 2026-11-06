@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/Naod6473/echo-hermes-bridge/actions/workflows/ci.yml/badge.svg)](https://github.com/Naod6473/echo-hermes-bridge/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)
+![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)
 ![Home Assistant not needed](https://img.shields.io/badge/Home%20Assistant-not%20needed-green.svg)
 
 Talk to [Hermes Agent](https://github.com/NousResearch/hermes-agent) out loud through an old Amazon Echo, **without Home Assistant**.
@@ -27,7 +27,7 @@ Hermes keeps the conversation through the `X-Hermes-Session-Id` header. A new co
 
 - A supported Echo: Echo Dot 2 (RS03QR), Echo Dot 3 2018 (D9N29T) or Echo 2 (XC56PY). See the [echo-dot-assist model list](https://github.com/Gamer92000/echo-dot-assist/blob/main/devices/MODELS.md). The 2019-2020 Dot 3 (C78MP8) is **not** supported.
 - A PC to flash it from: Linux (live USB is fine, no VM or WSL) or Windows 10/11 on Intel/AMD.
-- An always-on machine for the bridge: Debian/Ubuntu LXC, VM, Raspberry Pi 4/5 or a PC, Python 3.10+. 2 CPU cores and 2 GB RAM is enough with `WHISPER_MODEL=small`; 4 cores is snappier.
+- An always-on machine for the bridge: Debian/Ubuntu LXC, VM, Raspberry Pi 4/5 or a PC, Python 3.11+. 2 CPU cores and 2 GB RAM is enough with `WHISPER_MODEL=small`; 4 cores is snappier.
 - Hermes Agent with its API server reachable from that machine.
 
 ## 1. Flash the Echo
