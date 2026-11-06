@@ -24,14 +24,17 @@
   <a href="README.md">English</a>
 </p>
 
+<div align="center">
+
+https://github.com/user-attachments/assets/78d8778a-97a9-4797-a1c3-0ce6bffed2b3
+
+<sub>🔊 Monte le son : un vrai Echo Dot 2 qui parle à Hermes.</sub>
+
+</div>
+
 ---
 
 ## 💬 À quoi ça ressemble
-
-<p align="center">
-  <img src="assets/echo-dot-2.jpg" alt="Un vrai Echo Dot 2, flashé avec echo-dot-assist, à l'écoute pour Hermes." width="720"><br>
-  <sub>Un vrai Echo Dot 2, flashé avec echo-dot-assist, à l'écoute pour Hermes.</sub>
-</p>
 
 ```text
 Toi     Computer, comment va le serveur Proxmox ?
@@ -130,6 +133,11 @@ echo-dot-assist transforme l'Echo en **satellite vocal ESPHome**. D'habitude, c'
 Suis le guide echo-dot-assist de ton modèle. Pour un Echo Dot 2 depuis Windows, lis d'abord [nos notes](docs/flashing-echo-dot-2-windows.md) (en anglais) : elles couvrent tous les blocages qu'on a rencontrés et comment les passer.
 
 À la fin, l'Echo est sur ton Wi-Fi. **Donne-lui une IP fixe dans ta box.** Sa page de réglages est sur `http://<ip-echo>:28931/` (appuie sur le bouton action de l'Echo pour te connecter).
+
+<p align="center">
+  <img src="assets/echo-dot-2.jpg" alt="Un vrai Echo Dot 2, flashé avec echo-dot-assist, à l'écoute pour Hermes." width="720"><br>
+  <sub>Un vrai Echo Dot 2, flashé avec echo-dot-assist, à l'écoute pour Hermes.</sub>
+</p>
 
 > [!IMPORTANT]
 > Ne connecte pas Home Assistant au même Echo : il n'accepte qu'un seul client vocal.

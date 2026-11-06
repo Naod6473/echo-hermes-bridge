@@ -24,14 +24,17 @@
   <a href="README.fr.md">Français</a>
 </p>
 
+<div align="center">
+
+https://github.com/user-attachments/assets/78d8778a-97a9-4797-a1c3-0ce6bffed2b3
+
+<sub>🔊 Sound on: a real Echo Dot 2 talking to Hermes.</sub>
+
+</div>
+
 ---
 
 ## 💬 What it sounds like
-
-<p align="center">
-  <img src="assets/echo-dot-2.jpg" alt="A real Echo Dot 2, flashed with echo-dot-assist and listening for Hermes." width="720"><br>
-  <sub>A real Echo Dot 2, flashed with echo-dot-assist and listening for Hermes.</sub>
-</p>
 
 ```text
 You     Computer, how is the Proxmox server doing?
@@ -130,6 +133,11 @@ echo-dot-assist turns the Echo into an **ESPHome voice satellite**. Normally Hom
 Follow the echo-dot-assist guide for your model. Flashing an Echo Dot 2 from Windows? Read [our notes](docs/flashing-echo-dot-2-windows.md) first: they cover every snag we hit and how to get past it.
 
 When it is done, the Echo is on your Wi-Fi. **Give it a fixed IP in your router.** Its settings page is at `http://<echo-ip>:28931/` (press the Echo's action button to log in).
+
+<p align="center">
+  <img src="assets/echo-dot-2.jpg" alt="A real Echo Dot 2, flashed with echo-dot-assist and listening for Hermes." width="720"><br>
+  <sub>A real Echo Dot 2, flashed with echo-dot-assist and listening for Hermes.</sub>
+</p>
 
 > [!IMPORTANT]
 > Don't connect Home Assistant to the same Echo: it accepts only one voice-assistant client.
