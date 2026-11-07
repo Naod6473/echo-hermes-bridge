@@ -2,6 +2,11 @@
 
 ## Unreleased
 
+- TV screen at `/screen/`: live, full-screen view of the conversation for any TV browser (`/events` feed).
+- Android TV app (`android-tv/`): the same screen plus push-to-talk with the remote; APK built by CI.
+- `/talk` and `/ask` for the TV app, protected by `TV_TOKEN`; the bridge can run without an Echo.
+- Animated avatar (medallion, spectrum, hologram; white or black ink) from your own drawing, with `tools/make_avatar.py`.
+
 - One-line installer for Debian / Ubuntu (`install.sh`).
 - Proxmox VE script that creates a ready-made LXC (`deploy/proxmox-lxc.sh`).
 - Docker image (`ghcr.io/naod6473/echo-hermes-bridge`) and `docker-compose.yml`.
