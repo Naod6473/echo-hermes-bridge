@@ -126,6 +126,12 @@ echo-dot-assist transforme l'Echo en **satellite vocal ESPHome**. D'habitude, c'
 4. Il nettoie la réponse pour la voix (ni markdown, ni liens, ni emoji) et la transforme en WAV avec Piper.
 5. L'Echo télécharge le WAV depuis le bridge et le lit.
 
+## 📺 Sur ta TV
+
+![Hermes sur la TV](assets/tv-screen.jpg)
+
+Ouvre `http://<bridge>:8765/screen/` dans le navigateur de n'importe quelle TV pour voir la conversation en direct, en plein écran, ou installe l'**appli Android TV** pour parler à Hermes avec le micro de la télécommande. Avatar animé en option (ton propre dessin), en trois styles. Voir [docs/tv.fr.md](docs/tv.fr.md).
+
 ## 📦 Installation complète
 
 ### Ce qu'il te faut
@@ -257,6 +263,7 @@ Le bridge parle l'API chat completions d'OpenAI, donc tout serveur compatible de
 - [ ] Réponse en streaming, pour que l'Echo commence à parler plus tôt
 - [ ] Effets de l'anneau lumineux pendant qu'Hermes réfléchit
 - [x] Installation en une ligne, script LXC Proxmox et image Docker
+- [x] Écran TV et appli Android TV (appuyer et parler avec la télécommande), avatar animé
 - [ ] Retours de propriétaires d'Echo Dot 3 et d'Echo 2
 - [ ] **v2 : satellite portable sur ESP32** (ESP32-S3 + micro + haut-parleur)
 

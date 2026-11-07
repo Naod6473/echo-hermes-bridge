@@ -1,0 +1,195 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hermes · Réglages</title>
+<style>
+:root {
+  --bg: #060816; --ink: #eef0ff; --ink-2: #aab0dc; --ink-3: #7c82b3;
+  --line: rgba(160, 170, 255, .16); --cyan: #22d3ee; --violet: #a78bfa; --bad: #fb7185; --good: #34d399;
+  --sans: "Roboto", "Segoe UI", Arial, sans-serif; --mono: "Roboto Mono", ui-monospace, monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+body {
+  background: radial-gradient(60% 70% at 15% 15%, rgba(139, 92, 246, .22), transparent 70%),
+              radial-gradient(50% 60% at 90% 90%, rgba(34, 211, 238, .14), transparent 70%), var(--bg);
+  color: var(--ink); font-family: var(--sans);
+  display: grid; grid-template-columns: 38vw 1fr; align-items: center; gap: 6vw; padding: 0 7vw;
+}
+.side .mark { width: 9vh; height: 9vh; border-radius: 50%;
+  background: conic-gradient(from 200deg, var(--cyan), var(--violet), var(--cyan));
+  -webkit-mask: radial-gradient(farthest-side, transparent 60%, #000 64%); mask: radial-gradient(farthest-side, transparent 60%, #000 64%); }
+.side h1 { font-size: 7vh; font-weight: 600; letter-spacing: -.02em; margin-top: 3vh; }
+.side p { color: var(--ink-2); font-size: 2.3vh; line-height: 1.5; margin-top: 2vh; max-width: 34ch; }
+.side code { font-family: var(--mono); color: var(--cyan); font-size: .95em; }
+form { display: grid; gap: 2.2vh; }
+.choice { display: flex; gap: 1.2vh; flex-wrap: wrap; }
+label { font-family: var(--mono); font-size: 1.6vh; letter-spacing: .22em; text-transform: uppercase; color: var(--ink-3); display: grid; gap: 1vh; }
+input {
+  font: 400 2.8vh var(--sans); color: var(--ink); background: rgba(150, 160, 255, .06);
+  border: .25vh solid var(--line); border-radius: 1.6vh; padding: 1.8vh 2.2vh; outline: none; letter-spacing: 0; text-transform: none;
+}
+input:focus { border-color: var(--cyan); box-shadow: 0 0 0 .6vh rgba(34, 211, 238, .18); }
+.modes { display: flex; gap: 1.2vh; flex-wrap: wrap; }
+.preview { width: 34vh; height: 34vh; display: none; margin: -3vh 0 -2vh -3vh; }
+.side.has-preview .preview { display: block; }
+.side.has-preview .mark { display: none; }
+.choice button, .modes button, .actions button {
+  font: 500 2.2vh var(--sans); color: var(--ink-2); background: rgba(150, 160, 255, .06);
+  border: .25vh solid var(--line); border-radius: 99px; padding: 1.4vh 2.6vh; outline: none; cursor: pointer;
+}
+.choice button[aria-pressed="true"], .modes button[aria-pressed="true"] { color: var(--ink); border-color: var(--violet); background: rgba(167, 139, 250, .16); }
+.choice button:focus, .modes button:focus, .actions button:focus { border-color: var(--cyan); color: var(--ink); box-shadow: 0 0 0 .6vh rgba(34, 211, 238, .2); transform: scale(1.04); }
+.mode-help { font-size: 1.9vh; color: var(--ink-3); text-transform: none; letter-spacing: 0; font-family: var(--sans); }
+.actions { display: flex; gap: 1.6vh; margin-top: 1vh; }
+.actions .primary, .actions .primary:focus { color: #061018; background: linear-gradient(90deg, var(--cyan), var(--violet)); border-color: transparent; }
+.status { min-height: 3.2vh; font-size: 2.1vh; color: var(--ink-2); }
+.status.ok { color: var(--good); } .status.bad { color: var(--bad); }
+</style>
+</head>
+<body>
+<div class="side" id="side">
+  <div class="mark"></div>
+  <canvas class="preview" id="preview"></canvas>
+  <h1 id="title">Réglages</h1>
+  <p id="intro"></p>
+</div>
+<form id="form" autocomplete="off">
+  <label><span id="lBridge"></span><input id="bridge" inputmode="url" placeholder="192.168.1.64:8765"></label>
+  <label><span id="lToken"></span><input id="token" placeholder="TV_TOKEN"></label>
+  <label><span id="lMode"></span>
+    <div class="modes" id="modes">
+      <button type="button" data-mode="auto" id="mAuto"></button>
+      <button type="button" data-mode="whisper" id="mWhisper"></button>
+      <button type="button" data-mode="android" id="mAndroid"></button>
+    </div>
+    <span class="mode-help" id="modeHelp"></span>
+  </label>
+  <label><span id="lAvatar"></span><div class="choice" id="avatar"></div></label>
+  <label><span id="lInk"></span><div class="choice" id="ink"></div></label>
+  <div class="actions">
+    <button type="button" id="test"></button>
+    <button type="submit" class="primary" id="save"></button>
+  </div>
+  <div class="status" id="status" role="status"></div>
+</form>
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const native = window.HermesApp;
+  const cfg = native ? JSON.parse(native.config()) : { bridge: "", token: "", mode: "auto", lang: "fr", version: "dev" };
+  const fr = cfg.lang !== "en";
+  document.documentElement.lang = fr ? "fr" : "en";
+  const T = fr ? {
+    title: "Réglages", intro: `Indiquez l'adresse du bridge Hermes et le <code>TV_TOKEN</code> de son fichier <code>.env</code>. Version ${cfg.version}.`,
+    bridge: "Adresse du bridge", token: "Jeton TV", mode: "Reconnaissance vocale",
+    auto: "Auto", whisper: "Whisper (bridge)", android: "Android",
+    help: { auto: "Whisper sur votre serveur, ou la reconnaissance de la TV si elle ne prête pas son micro.",
+            whisper: "Toujours Whisper sur votre serveur : rien ne sort de chez vous.",
+            android: "La reconnaissance de la TV (Google sur Google TV) : la plus fiable avec la télécommande." },
+    test: "Tester", save: "Enregistrer", testing: "Test en cours…",
+    avatar: "Avatar", ink: "Dessin",
+    avatars: [["", "Par défaut"], ["orb", "Orbe"], ["medallion", "Médaillon"], ["spectrum", "Spectre"], ["hologram", "Hologramme"]],
+    inks: [["", "Par défaut"], ["white", "Encre blanche"], ["black", "Encre noire"]],
+    ok: (j) => `Connecté. ${j.echo ? "Echo relié au bridge." : "Bridge sans Echo."}`,
+    reasons: { unreachable: "Bridge injoignable : vérifiez l'adresse et le port (8765 par défaut).", "not-a-bridge": "Cette adresse ne répond pas comme un bridge Hermes.",
+               "wrong-token": "Jeton refusé : recopiez TV_TOKEN depuis le .env du bridge.", "tv-disabled": "L'appli TV est désactivée : ajoutez TV_TOKEN=… dans le .env du bridge puis redémarrez-le.",
+               unexpected: "Réponse inattendue du bridge." },
+    error: (e) => `Impossible d'ouvrir l'écran Hermes (${e}). Nouvel essai automatique…`,
+  } : {
+    title: "Settings", intro: `Enter the Hermes bridge address and the <code>TV_TOKEN</code> from its <code>.env</code> file. Version ${cfg.version}.`,
+    bridge: "Bridge address", token: "TV token", mode: "Speech recognition",
+    auto: "Auto", whisper: "Whisper (bridge)", android: "Android",
+    help: { auto: "Whisper on your server, or the TV's recogniser if the TV doesn't lend its microphone.",
+            whisper: "Always Whisper on your server: nothing leaves your home.",
+            android: "The TV's own recogniser (Google on Google TV): the most reliable with the remote." },
+    test: "Test", save: "Save", testing: "Testing…",
+    avatar: "Avatar", ink: "Drawing",
+    avatars: [["", "Default"], ["orb", "Orb"], ["medallion", "Medallion"], ["spectrum", "Spectrum"], ["hologram", "Hologram"]],
+    inks: [["", "Default"], ["white", "White ink"], ["black", "Black ink"]],
+    ok: (j) => `Connected. ${j.echo ? "Echo linked to the bridge." : "Bridge without an Echo."}`,
+    reasons: { unreachable: "Bridge unreachable: check the address and port (8765 by default).", "not-a-bridge": "This address doesn't answer like a Hermes bridge.",
+               "wrong-token": "Token refused: copy TV_TOKEN from the bridge's .env.", "tv-disabled": "The TV app is disabled: add TV_TOKEN=… to the bridge's .env and restart it.",
+               unexpected: "Unexpected answer from the bridge." },
+    error: (e) => `Couldn't open the Hermes screen (${e}). Retrying automatically…`,
+  };
+  $("title").textContent = T.title; $("intro").innerHTML = T.intro;
+  $("lBridge").textContent = T.bridge; $("lToken").textContent = T.token; $("lMode").textContent = T.mode;
+  $("mAuto").textContent = T.auto; $("mWhisper").textContent = T.whisper; $("mAndroid").textContent = T.android;
+  $("test").textContent = T.test; $("save").textContent = T.save;
+  $("bridge").value = cfg.bridge; $("token").value = cfg.token;
+
+  let mode = cfg.mode || "auto";
+  function setMode(m) {
+    mode = m;
+    document.querySelectorAll("#modes button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.mode === m)));
+    $("modeHelp").textContent = T.help[m];
+  }
+  document.querySelectorAll("#modes button").forEach((b) => b.addEventListener("click", () => setMode(b.dataset.mode)));
+  setMode(mode);
+
+  // avatar + ink pickers, with a live preview from the bridge
+  $("lAvatar").textContent = T.avatar; $("lInk").textContent = T.ink;
+  const pick = { avatar: cfg.avatar || "", ink: cfg.ink || "" };
+  function group(id, items) {
+    $(id).innerHTML = items.map(([v, l]) => `<button type="button" data-v="${v}">${l}</button>`).join("");
+    const sync = () => $(id).querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.v === pick[id])));
+    $(id).querySelectorAll("button").forEach((b) => b.addEventListener("click", () => { pick[id] = b.dataset.v; sync(); preview(); }));
+    sync();
+  }
+  group("avatar", T.avatars); group("ink", T.inks);
+
+  let pv = null, pvData = null, pvFor = null;
+  function bridgeBase() {
+    let u = $("bridge").value.trim().replace(/\/+$/, "");
+    if (!u) return "";
+    if (!/^https?:\/\//.test(u)) u = "http://" + u;
+    if (!/:\d+$/.test(u.split("/").slice(0, 3).join("/"))) u += ":8765";
+    return u;
+  }
+  function loadScript(src) {
+    return new Promise((ok, ko) => { const s = document.createElement("script"); s.src = src; s.onload = ok; s.onerror = ko; document.head.appendChild(s); });
+  }
+  async function preview() {
+    const base = bridgeBase(), style = pick.avatar || "medallion";
+    if (!base || pick.avatar === "orb") { $("side").classList.remove("has-preview"); pv = null; return; }
+    try {
+      if (pvFor !== base) {
+        pvFor = base; pvData = null;
+        if (!window.HermesAvatar) await loadScript(base + "/screen/avatar.js");
+        const r = await fetch(base + "/screen/avatar.json"); pvData = r.ok ? await r.json() : null;
+      }
+      if (!pvData || !window.HermesAvatar) { $("side").classList.remove("has-preview"); pv = null; return; }
+      pv = HermesAvatar.create($("preview"), pvData, { style, ink: pick.ink || "white" });
+      $("side").classList.add("has-preview");
+    } catch (e) { $("side").classList.remove("has-preview"); pv = null; }
+  }
+  (function loop(t) {
+    if (pv) { const ph = (t % 9000) / 9000; pv.frame(t, ph < .55 ? "speaking" : "idle", .3 + .6 * Math.abs(Math.sin(t / 70) * Math.sin(t / 260))); }
+    requestAnimationFrame(loop);
+  })(0);
+  $("bridge").addEventListener("change", () => { pvFor = null; preview(); });
+  preview();
+
+  const status = (text, cls) => { $("status").textContent = text; $("status").className = "status " + (cls || ""); };
+  window.onTest = (j) => {
+    if (j.ok) status(T.ok(j), "ok");
+    else status((T.reasons[j.reason] || j.reason) + (j.detail && j.reason === "unreachable" ? ` (${j.detail})` : ""), "bad");
+  };
+  $("test").addEventListener("click", () => { status(T.testing); native && native.test($("bridge").value, $("token").value); });
+  $("form").addEventListener("submit", (e) => { e.preventDefault(); native && native.save($("bridge").value, $("token").value, mode, pick.avatar, pick.ink); });
+
+  const err = new URLSearchParams(location.search).get("error");
+  if (err && cfg.bridge) {
+    status(T.error(err), "bad");
+    let touched = false;
+    document.addEventListener("keydown", () => { touched = true; }, { once: true });
+    setTimeout(() => { if (!touched && native) native.retry(); }, 10000);
+  }
+  $(cfg.bridge ? "save" : "bridge").focus();
+})();
+</script>
+</body>
+</html>
