@@ -132,7 +132,7 @@ echo-dot-assist transforme l'Echo en **satellite vocal ESPHome**. D'habitude, c'
 
 ▶️ **[Regarder la démo de 2 minutes sur YouTube](https://youtu.be/4oQY3ZKcexA)**
 
-Ouvre `http://<bridge>:8765/screen/` dans le navigateur de n'importe quelle TV pour voir la conversation en direct, en plein écran, ou installe l'**appli Android TV** pour parler à Hermes avec le micro de la télécommande. Avatar animé en option (ton propre dessin), en trois styles. Voir [docs/tv.fr.md](docs/tv.fr.md).
+Ouvre `http://<bridge>:8765/screen/` dans le navigateur de n'importe quelle TV pour voir la conversation en direct, en plein écran, ou installe l'**appli Android** pour parler à Hermes : sur une TV avec le micro de la télécommande, sur un téléphone ou une tablette avec un bouton « toucher pour parler ». Avatar animé en option (ton propre dessin), en trois styles. Voir [docs/tv.fr.md](docs/tv.fr.md).
 
 ## 📦 Installation complète
 
@@ -266,6 +266,7 @@ Le bridge parle l'API chat completions d'OpenAI, donc tout serveur compatible de
 - [ ] Effets de l'anneau lumineux pendant qu'Hermes réfléchit
 - [x] Installation en une ligne, script LXC Proxmox et image Docker
 - [x] Écran TV et appli Android TV (appuyer et parler avec la télécommande), avatar animé
+- [x] La même appli sur téléphone et tablette Android (toucher pour parler)
 - [ ] Retours de propriétaires d'Echo Dot 3 et d'Echo 2
 - [ ] **v2 : satellite portable sur ESP32** (ESP32-S3 + micro + haut-parleur)
 

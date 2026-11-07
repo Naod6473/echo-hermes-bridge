@@ -33,6 +33,9 @@ import java.util.Locale
  *    when you pause; or hold the button while talking and release it to send;
  *  - Back cancels; D-pad down opens the settings.
  *
+ * On a phone or tablet the page shows a big talk button instead: tap to talk (tap again to send),
+ * hold it while talking, Cancel or Back to drop it, and a gear for the settings.
+ *
  * The page shows what the bridge broadcasts (Echo and TV conversations). This activity only adds
  * what happens on the TV itself: listening, the voice level, and playing the spoken reply.
  */
@@ -56,6 +59,9 @@ class MainActivity : Activity(), Talker.Listener {
     )
 
     private val fr get() = Locale.getDefault().language == "fr"
+
+    /** A real touchscreen (phones, tablets), not a TV's "fake touch" remote. */
+    private val hasTouch by lazy { packageManager.hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN) }
 
     // ----------------------------------------------------------------------------------- lifecycle
     @SuppressLint("SetJavaScriptEnabled")
@@ -157,9 +163,10 @@ class MainActivity : Activity(), Talker.Listener {
         onSetup = false
         pageReady = false
         val lang = if (fr) "fr" else "en"
+        val touch = if (hasTouch) "&touch=1" else ""
         val look = (if (prefs.avatar.isNotEmpty()) "&avatar=${prefs.avatar}" else "") +
             (if (prefs.ink.isNotEmpty()) "&ink=${prefs.ink}" else "")
-        web.loadUrl("${prefs.bridgeUrl}/screen/?app=1&lang=$lang$look")
+        web.loadUrl("${prefs.bridgeUrl}/screen/?app=1&lang=$lang$touch$look")
         web.requestFocus()
     }
 
@@ -221,26 +228,46 @@ class MainActivity : Activity(), Talker.Listener {
 
         @JavascriptInterface
         fun onPlaybackDone() {}
+
+        /** The page's talk button (touch screens): same behaviour as OK on the remote. */
+        @JavascriptInterface
+        fun talkDown() {
+            main.post { pressDown() }
+        }
+
+        @JavascriptInterface
+        fun talkUp() {
+            main.post { pressUp() }
+        }
+
+        @JavascriptInterface
+        fun cancelTalk() {
+            main.post { cancelTalking() }
+        }
     }
 
     // ----------------------------------------------------------------------------------- keys
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
-        if (onSetup) return super.dispatchKeyEvent(event)
+        if (onSetup) {
+            // Back on the settings returns to the screen once a bridge is set (phones expect it too).
+            if (event.keyCode == KeyEvent.KEYCODE_BACK && event.action == KeyEvent.ACTION_UP && prefs.bridgeUrl.isNotBlank()) {
+                showScreen()
+                return true
+            }
+            if (event.keyCode == KeyEvent.KEYCODE_BACK && prefs.bridgeUrl.isNotBlank()) return true
+            return super.dispatchKeyEvent(event)
+        }
         val code = event.keyCode
         val now = SystemClock.uptimeMillis()
         if (code in pushToTalkKeys) {
-            if (event.action == KeyEvent.ACTION_DOWN && event.repeatCount == 0) {
-                if (talker?.active == true) talker?.stop() else startTalking()
-            } else if (event.action == KeyEvent.ACTION_UP && talker?.active == true && now - talkStartedAt > HOLD_MS) {
-                talker?.stop()                               // held while talking: release sends
-            }
+            if (event.action == KeyEvent.ACTION_DOWN && event.repeatCount == 0) pressDown()
+            else if (event.action == KeyEvent.ACTION_UP) pressUp(now)
             return true
         }
         if (event.action == KeyEvent.ACTION_DOWN) {
             when (code) {
                 KeyEvent.KEYCODE_BACK -> if (talker?.active == true) {
-                    talker?.cancel()
-                    screenEvent(JSONObject().put("type", "idle"))
+                    cancelTalking()
                     return true
                 }
                 KeyEvent.KEYCODE_DPAD_DOWN, KeyEvent.KEYCODE_MENU, KeyEvent.KEYCODE_SETTINGS, KeyEvent.KEYCODE_INFO -> {
@@ -253,6 +280,23 @@ class MainActivity : Activity(), Talker.Listener {
     }
 
     // ----------------------------------------------------------------------------------- talking
+    /** OK on the remote, or the talk button on a touch screen: start, or send if already listening. */
+    private fun pressDown() {
+        if (talker?.active == true) talker?.stop() else startTalking()
+    }
+
+    /** Released after holding it while talking: send. A short press keeps listening until the pause. */
+    private fun pressUp(now: Long = SystemClock.uptimeMillis()) {
+        if (talker?.active == true && now - talkStartedAt > HOLD_MS) talker?.stop()
+    }
+
+    private fun cancelTalking() {
+        if (talker?.active != true) return
+        talker?.cancel()
+        js("HermesScreen.level(0)")
+        screenEvent(JSONObject().put("type", "idle"))
+    }
+
     private fun startTalking() {
         if (onSetup || prefs.bridgeUrl.isBlank()) return
         if (Build.VERSION.SDK_INT >= 23 && checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {

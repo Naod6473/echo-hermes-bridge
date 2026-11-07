@@ -263,6 +263,55 @@ footer { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2vw; min-hei
   :root { --orb: 34vh; }
   .clock-big { font-size: 14vh; }
 }
+/* ------------------------------------------------------------------ touch (the app on a phone or tablet) */
+.gear, .touchbar { display: none; }
+body.touch { cursor: auto; -webkit-tap-highlight-color: transparent; user-select: none; -webkit-user-select: none; }
+body.touch .stage { grid-template-rows: auto 1fr auto auto; padding-bottom: max(3vh, env(safe-area-inset-bottom)); }
+body.touch .gear {
+  display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: 14px;
+  border: 1px solid var(--line); background: var(--glass); color: var(--ink-2); cursor: pointer;
+}
+body.touch .gear svg { width: 22px; height: 22px; }
+body.touch .hint { display: none; }
+body.touch .touchbar { display: flex; flex-direction: column; align-items: center; gap: 1.2vh; }
+.talk {
+  position: relative; width: 92px; height: 92px; border-radius: 50%; border: 0; cursor: pointer; touch-action: none;
+  color: #0b0f2a; background: linear-gradient(140deg, var(--c1), var(--c2));
+  box-shadow: 0 0 0 10px color-mix(in srgb, var(--c1) 12%, transparent), 0 0 0 22px color-mix(in srgb, var(--c2) 7%, transparent), 0 16px 40px rgba(40, 20, 140, .55);
+  display: flex; align-items: center; justify-content: center; transition: transform .15s var(--ease), background .4s;
+}
+.talk:active { transform: scale(.94); }
+.talk svg { width: 38px; height: 38px; }
+.talk .send { display: none; }
+body[data-state="listening"] .talk { color: var(--c1); background: color-mix(in srgb, var(--c1) 14%, #060816); outline: 2px solid var(--c1); }
+body[data-state="listening"] .talk .mic2 { display: none; }
+body[data-state="listening"] .talk .send { display: block; }
+body[data-state="thinking"] .talk { opacity: .45; }
+.talk-label { font-size: 17px; font-weight: 600; color: var(--ink); }
+.cancel {
+  min-height: 44px; padding: 0 22px; border-radius: 99px; border: 1px solid var(--line); background: transparent;
+  color: var(--ink-2); font: 500 15px var(--sans); cursor: pointer;
+}
+.cancel[hidden] { display: none; }
+@media (max-aspect-ratio: 1/1) {
+  body.touch { --orb: min(24vh, 50vw); }
+  body.touch .stage { padding: 3vh 5vw; gap: 2vh; }
+  body.touch .brand .name { letter-spacing: .3em; }
+  body.touch .clock-small { display: none; }
+  body.touch .top-right { gap: 10px; }
+  body.touch main { grid-template-columns: minmax(0, 1fr); align-content: start; gap: 2.5vh; overflow: hidden; }
+  body.touch .copy { height: auto; width: 100%; }
+  body.touch .clock-big { font-size: 9vh; }
+  body.touch .heard { font-size: 2.3vh; margin-top: 1.8vh; }
+  body.touch .reply { font-size: min(var(--reply-size, 6vh), 3.3vh); margin-top: 2vh; }
+  body.touch .wave { height: 8vh; margin: 2.5vh auto 0; width: 100%; gap: 3px; }
+  body.touch .wave i { width: auto; flex: 1 1 0; min-width: 2px; }
+  body.touch .panel { min-width: 0; }
+  body.touch .avatar { margin-top: calc(var(--orb) * -0.08); }
+  body.touch footer { min-height: 0; }
+  body.touch:not([data-state="idle"]) footer { display: none; }
+  body.touch .card:nth-child(n+2) { display: none; }
+}
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0s !important; animation-iteration-count: 1 !important; }
 }
@@ -276,6 +325,7 @@ footer { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2vw; min-hei
     <div class="top-right">
       <span class="clock-small" id="clockSmall"></span>
       <span class="pill" id="conn"><span class="dot"></span><span id="connText"></span></span>
+      <button class="gear" id="gear" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button>
     </div>
   </header>
 
@@ -309,6 +359,14 @@ footer { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2vw; min-hei
   </main>
 
   <footer id="history"></footer>
+  <div class="touchbar" id="touchbar">
+    <button class="talk" id="talk" type="button">
+      <svg class="mic2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><path d="M12 18v3"/></svg>
+      <svg class="send" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+    </button>
+    <div class="talk-label" id="talkLabel" aria-live="polite"></div>
+    <button class="cancel" id="cancel" type="button" hidden></button>
+  </div>
 </div>
 <button class="pill unlock" id="unlock"></button>
 
@@ -320,6 +378,7 @@ footer { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2vw; min-hei
   const $ = (id) => document.getElementById(id);
   const lang = (q.get("lang") || navigator.language || "fr").slice(0, 2) === "en" ? "en" : "fr";
   const app = q.has("app") || !!window.HermesApp;            // inside the Android TV app
+  const touch = app && q.get("touch") === "1";                // the app on a phone or tablet: tap to talk
   const playAll = q.get("audio") === "1";                     // browser: also speak the replies here
   const wake = q.get("wake") || "Alexa";
   const name = q.get("name") || "";
@@ -330,13 +389,17 @@ footer { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2vw; min-hei
           live: "En direct", connecting: "Connexion", echo: "Echo", tv: "TV",
           morning: "Bonjour", evening: "Bonsoir", sayWake: (w) => `Dites <b>« ${w} »</b>`,
           press: `Appuyez sur ${micSvg()} ou <b>OK</b> pour parler`, release: "Relâchez ou appuyez pour envoyer",
-          sound: "Activer le son", settings: "▼ Réglages", locale: "fr-FR" },
+          sound: "Activer le son", settings: "▼ Réglages", locale: "fr-FR",
+          tapTalk: "Touchez pour parler", tapSend: "Touchez pour envoyer", tapReply: "Touchez pour répondre",
+          waiting: "Hermes réfléchit…", cancel: "Annuler", gear: "Réglages" },
     en: { listening: "Listening", transcribing: "Transcribing", thinking: "Thinking", speaking: "Hermes says",
           error: "Oops", nothing: "I didn't catch that", down: "Hermes can't be reached",
           live: "Live", connecting: "Connecting", echo: "Echo", tv: "TV",
           morning: "Good morning", afternoon: "Good afternoon", evening: "Good evening", sayWake: (w) => `Say <b>“${w}”</b>`,
           press: `Press ${micSvg()} or <b>OK</b> to talk`, release: "Release or press again to send",
-          sound: "Enable sound", settings: "▼ Settings", locale: "en-GB" },
+          sound: "Enable sound", settings: "▼ Settings", locale: "en-GB",
+          tapTalk: "Tap to talk", tapSend: "Tap to send", tapReply: "Tap to reply",
+          waiting: "Hermes is thinking…", cancel: "Cancel", gear: "Settings" },
   }[lang];
   document.documentElement.lang = lang;
   function micSvg() { return '<svg class="mic" viewBox="0 0 24 24"><path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v6a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-2.08A7 7 0 0 0 19 12h-2Z"/></svg>'; }
@@ -370,6 +433,7 @@ footer { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2vw; min-hei
     const idle = s === "idle";
     $("pIdle").hidden = !idle; $("pLive").hidden = idle;
     if (idle) { renderHistory(); level.target = 0; }
+    if (touch) touchUi();
   }
 
   const BARS = 56;
@@ -499,6 +563,30 @@ footer { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2vw; min-hei
     es.onopen = () => setConn(true);
     es.onerror = () => setConn(false);
     es.onmessage = (m) => { try { onEvent(JSON.parse(m.data)); } catch (e) { console.warn(e); } };
+  }
+
+  // ------------------------------------------------------------- touch: tap to talk, hold to talk, cancel
+  let replied = false;
+  function touchUi() {
+    if (state === "speaking") replied = true;
+    $("talkLabel").textContent = state === "listening" ? T.tapSend : state === "thinking" ? T.waiting
+      : replied ? T.tapReply : T.tapTalk;
+    $("talk").setAttribute("aria-label", state === "listening" ? T.tapSend : T.tapTalk);
+    $("cancel").hidden = state !== "listening";
+  }
+  if (touch) {
+    document.body.classList.add("touch");
+    $("cancel").textContent = T.cancel;
+    $("gear").setAttribute("aria-label", T.gear);
+    const talk = $("talk");
+    talk.addEventListener("pointerdown", (e) => { e.preventDefault(); talk.setPointerCapture?.(e.pointerId); window.HermesApp?.talkDown?.(); });
+    const up = () => window.HermesApp?.talkUp?.();
+    talk.addEventListener("pointerup", up);
+    talk.addEventListener("pointercancel", up);
+    talk.addEventListener("contextmenu", (e) => e.preventDefault());
+    $("cancel").addEventListener("click", () => window.HermesApp?.cancelTalk?.());
+    $("gear").addEventListener("click", () => window.HermesApp?.openSettings?.());
+    touchUi();
   }
 
   // ------------------------------------------------------------- API for the Android TV app
