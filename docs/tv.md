@@ -28,7 +28,6 @@ Options, added to the address:
 | `&name=Simon` | "Good evening, Simon" |
 | `&audio=1` | Also speak the replies on this screen (click once to allow sound) |
 | `&demo=1` | Demo loop without a bridge, to try the look |
-
 | `&avatar=medallion` | Avatar style: `orb` (default), `medallion`, `spectrum` or `hologram` (see below) |
 | `&ink=black` | Avatar drawing in black ink on a light disc, instead of white ink |
 

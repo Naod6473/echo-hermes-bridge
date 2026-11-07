@@ -28,7 +28,6 @@ Options, à ajouter à l'adresse :
 | `&name=Simon` | « Bonsoir, Simon » |
 | `&audio=1` | Dit aussi les réponses sur cet écran (un clic pour autoriser le son) |
 | `&demo=1` | Boucle de démo sans bridge, pour voir le rendu |
-
 | `&avatar=medallion` | Style d'avatar : `orb` (par défaut), `medallion`, `spectrum` ou `hologram` (voir plus bas) |
 | `&ink=black` | Dessin à l'encre noire sur un disque clair, au lieu de l'encre blanche |
 
