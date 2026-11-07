@@ -2,7 +2,7 @@
 
 *[Version française](tv.fr.md)*
 
-[![The Hermes screen on a TV](../assets/tv-screen.jpg)](https://youtu.be/4oQY3ZKcexA)
+[![The Hermes screen on a TV](../assets/tv-screen-en.jpg)](https://youtu.be/4oQY3ZKcexA)
 
 ▶️ [2-minute demo on YouTube](https://youtu.be/4oQY3ZKcexA)
 
@@ -96,6 +96,8 @@ adb shell am start -n io.github.naod6473.hermestv/.MainActivity --es bridge 192.
 | **D-pad down** | Settings (bridge, token, voice mode, avatar style, ink) |
 
 ### On a phone or tablet
+
+<img src="../assets/phone-screens-en.jpg" alt="The Android app on a phone: tap to talk, listening, thinking, Hermes replies" width="100%">
 
 Install the same APK (copy it to the phone and open it, allowing installs from that app). The page shows a big microphone button at the bottom:
 
