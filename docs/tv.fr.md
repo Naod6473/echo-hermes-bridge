@@ -2,7 +2,9 @@
 
 *[English version](tv.md)*
 
-![L'écran Hermes sur une TV](../assets/tv-screen.jpg)
+[![L'écran Hermes sur une TV](../assets/tv-screen.jpg)](https://youtu.be/4oQY3ZKcexA)
+
+▶️ [Démo de 2 minutes sur YouTube](https://youtu.be/4oQY3ZKcexA)
 
 Deux façons d'amener Hermes sur la TV du salon. Les deux sont servies par le même `bridge.py`.
 

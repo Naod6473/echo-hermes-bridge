@@ -128,7 +128,9 @@ echo-dot-assist transforme l'Echo en **satellite vocal ESPHome**. D'habitude, c'
 
 ## 📺 Sur ta TV
 
-![Hermes sur la TV](assets/tv-screen.jpg)
+[![Hermes sur la TV : regarder la démo de 2 minutes](assets/tv-screen.jpg)](https://youtu.be/4oQY3ZKcexA)
+
+▶️ **[Regarder la démo de 2 minutes sur YouTube](https://youtu.be/4oQY3ZKcexA)**
 
 Ouvre `http://<bridge>:8765/screen/` dans le navigateur de n'importe quelle TV pour voir la conversation en direct, en plein écran, ou installe l'**appli Android TV** pour parler à Hermes avec le micro de la télécommande. Avatar animé en option (ton propre dessin), en trois styles. Voir [docs/tv.fr.md](docs/tv.fr.md).
 
