@@ -2,7 +2,9 @@
 
 *[English version](tv.md)*
 
-![L'écran Hermes sur une TV](../assets/tv-screen.jpg)
+[![L'écran Hermes sur une TV](../assets/tv-screen.jpg)](https://youtu.be/4oQY3ZKcexA)
+
+▶️ [Démo de 2 minutes sur YouTube](https://youtu.be/4oQY3ZKcexA)
 
 Deux façons d'amener Hermes sur la TV du salon. Les deux sont servies par le même `bridge.py`.
 
@@ -10,6 +12,7 @@ Deux façons d'amener Hermes sur la TV du salon. Les deux sont servies par le m�
 |---|---|---|
 | **Écran TV** | Une vue plein écran en direct : Hermes qui écoute, réfléchit, sa réponse mot par mot, les derniers échanges, et une horloge au repos. Affiche aussi les conversations de l'Echo. | N'importe quelle TV ou navigateur |
 | **Appli Android TV** | Le même écran, plus **appuyer et parler avec la télécommande** : OK (ou le bouton micro), tu parles, Hermes répond par les haut-parleurs de la TV. | Android TV / Google TV (intégrée, ou un boîtier Google TV en HDMI) |
+| **Sur téléphone ou tablette** | Le même APK : un gros bouton **toucher pour parler**, en portrait ou en paysage. | Android 6 ou plus récent |
 
 ## Écran TV (toute TV)
 
@@ -91,6 +94,19 @@ adb shell am start -n io.github.naod6473.hermestv/.MainActivity --es bridge 192.
 | Maintenir le bouton en parlant | Relâcher pour envoyer |
 | **Retour** pendant l'écoute | Annuler |
 | **Bas** sur la croix | Réglages (bridge, jeton, mode vocal, style d'avatar, encre) |
+
+### Sur téléphone ou tablette
+
+Installe le même APK (copie-le sur le téléphone et ouvre-le, en autorisant l'installation depuis cette appli). La page affiche un gros bouton micro en bas :
+
+| Geste | Action |
+|---|---|
+| **Toucher** le bouton | Parler. Ça s'arrête tout seul à la pause. Retouche pour envoyer tout de suite. |
+| **Maintenir** en parlant | Relâcher pour envoyer |
+| **Annuler**, ou Retour | Abandonner |
+| **Engrenage**, en haut à droite | Réglages |
+
+Le téléphone utilise son propre micro, donc les modes vocaux ci-dessous comptent moins : *Auto* convient.
 
 ### Le micro de la télécommande
 

@@ -47,6 +47,18 @@ input:focus { border-color: var(--cyan); box-shadow: 0 0 0 .6vh rgba(34, 211, 23
 .actions .primary, .actions .primary:focus { color: #061018; background: linear-gradient(90deg, var(--cyan), var(--violet)); border-color: transparent; }
 .status { min-height: 3.2vh; font-size: 2.1vh; color: var(--ink-2); }
 .status.ok { color: var(--good); } .status.bad { color: var(--bad); }
+/* phones and tablets held upright: one scrolling column, finger-sized controls */
+@media (max-aspect-ratio: 1/1) {
+  html, body { height: auto; min-height: 100%; overflow: auto; }
+  body { grid-template-columns: minmax(0, 1fr); align-items: start; gap: 3vh; padding: 6vh 6vw 8vh; }
+  form, label { min-width: 0; }
+  input { width: 100%; min-width: 0; font-size: 2.3vh; }
+  .side h1 { font-size: 4.6vh; margin-top: 2vh; }
+  .side p { font-size: 2vh; }
+  .preview { width: 24vh; height: 24vh; margin: 0; }
+  input, .choice button, .modes button, .actions button { min-height: 48px; }
+  .actions button { flex: 1; }
+}
 </style>
 </head>
 <body>
@@ -185,7 +197,7 @@ input:focus { border-color: var(--cyan); box-shadow: 0 0 0 .6vh rgba(34, 211, 23
   if (err && cfg.bridge) {
     status(T.error(err), "bad");
     let touched = false;
-    document.addEventListener("keydown", () => { touched = true; }, { once: true });
+    for (const ev of ["keydown", "pointerdown"]) document.addEventListener(ev, () => { touched = true; }, { once: true });
     setTimeout(() => { if (!touched && native) native.retry(); }, 10000);
   }
   $(cfg.bridge ? "save" : "bridge").focus();

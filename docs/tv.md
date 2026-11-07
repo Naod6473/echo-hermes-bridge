@@ -2,7 +2,9 @@
 
 *[Version française](tv.fr.md)*
 
-![The Hermes screen on a TV](../assets/tv-screen.jpg)
+[![The Hermes screen on a TV](../assets/tv-screen-en.jpg)](https://youtu.be/4oQY3ZKcexA)
+
+▶️ [2-minute demo on YouTube](https://youtu.be/4oQY3ZKcexA)
 
 Two ways to bring Hermes to the living-room TV. Both are served by the same `bridge.py`.
 
@@ -10,6 +12,7 @@ Two ways to bring Hermes to the living-room TV. Both are served by the same `bri
 |---|---|---|
 | **TV screen** | A full-screen live view: Hermes listening, thinking, its answer word by word, the last exchanges, and a clock when idle. Shows the Echo's conversations too. | Any TV or browser |
 | **Android TV app** | The same screen, plus **push-to-talk with the remote**: press OK (or the mic button), talk, Hermes answers through the TV speakers. | Android TV / Google TV (built in, or a Google TV box on HDMI) |
+| **On a phone or tablet** | The same APK: a big **tap-to-talk** button, in portrait or landscape. | Android 6 or later |
 
 ## TV screen (any TV)
 
@@ -91,6 +94,21 @@ adb shell am start -n io.github.naod6473.hermestv/.MainActivity --es bridge 192.
 | Hold the button while talking | Release to send |
 | **Back** while listening | Cancel |
 | **D-pad down** | Settings (bridge, token, voice mode, avatar style, ink) |
+
+### On a phone or tablet
+
+<img src="../assets/phone-screens-en.jpg" alt="The Android app on a phone: tap to talk, listening, thinking, Hermes replies" width="100%">
+
+Install the same APK (copy it to the phone and open it, allowing installs from that app). The page shows a big microphone button at the bottom:
+
+| Touch | Action |
+|---|---|
+| **Tap** the button | Start talking. It stops by itself when you pause. Tap again to send now. |
+| **Hold** it while talking | Release to send |
+| **Cancel**, or Back | Drop it |
+| **Gear**, top right | Settings |
+
+The phone uses its own microphone, so the voice modes below matter less: *Auto* is fine.
 
 ### The remote's microphone
 
